@@ -1,5 +1,5 @@
 void determination_du_camp(){
-  if(digitalRead(pin_Camp_Vert)==1){couleur_camp=0;}
+  if(digitalRead(pin_Camp_Jaune)==1){couleur_camp=0;}
   else{couleur_camp=1;}
 }
 

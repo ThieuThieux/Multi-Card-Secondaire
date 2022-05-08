@@ -1,34 +1,35 @@
 #include <Wire.h>
 #include <NewPing.h>
 
-//Serial
+// Serial
 #define BAUD 9600
 
-//I2C
+// I2C
 #define ADD 9
 
-//US
-#define SONAR_NUM     6 // Number or sensors.
-#define MAX_DISTANCE 200 // Maximum distance (in cm) to ping.
-#define PING_INTERVAL 40 // Milliseconds between sensor pings (29ms is about the min to avoid cross-sensor echo).
+// US
+#define SONAR_NUM 6       // Number or sensors.
+#define MAX_DISTANCE 200  // Maximum distance (in cm) to ping.
+#define MIN_DISTANCE 10   // Minimum distance to 
+#define PING_INTERVAL 40  // Milliseconds between sensor pings (29ms is about the min to avoid cross-sensor echo).
 #define DISTANCETOSTOP 30 // Distance à partir de laquelle on met le pin stop à 1
 
 // I/O
-#define trig0 2  // 
+#define trig0 2 // US_A
 #define echo0 3
-#define trig1 4
+#define trig1 4 // US_E
 #define echo1 5
-#define trig2 6
+#define trig2 6 // US_B
 #define echo2 7
-#define trig3 8
+#define trig3 8 // US_C
 #define echo3 9
-#define trig4 10
+#define trig4 10 // US_D
 #define echo4 11
 #define STOP 12
-#define duree_interruption 1
-#define duree_rearmement 1
+#define duree_interruption 1 // ms
+#define duree_rearmement 1 //ms
 
-#define distance_obstacle 45
+#define distance_obstacle 45 // cm
 
 NewPing US_A(trig0, echo0, MAX_DISTANCE);
 NewPing US_B(trig2, echo2, MAX_DISTANCE);
@@ -46,11 +47,12 @@ boolean c = LOW;
 boolean d = LOW;
 boolean e = LOW;
 
-void setup() {
+void setup()
+{
   Wire.begin(5);                // join i2c bus with address #8
   Wire.onReceive(receiveEvent); // register event
   Serial.begin(9600);           // start serial for output
-  pinMode(12,OUTPUT);
+  pinMode(12, OUTPUT);
   pinMode(trig0, INPUT);
   pinMode(echo0, INPUT);
   pinMode(trig1, INPUT);
@@ -63,15 +65,54 @@ void setup() {
   pinMode(echo4, INPUT);
 }
 
-void loop() {
-if(a==1){if(US_A.ping_cm() < distance_obstacle && US_A.ping_cm() >10 ){Stopall(HIGH); delay(duree_interruption); Stopall(LOW); delay(duree_rearmement); }}else{Stopall(LOW );}
-//if(b){if(US_B.ping_cm() < distance_obstacle && US_B.ping_cm() >10 ){Stopall(HIGH);delay(100); Stopall(LOW);}}else{Stopall(LOW );}
-if(c==1){if(US_C.ping_cm() < distance_obstacle && US_C.ping_cm() >10 ){Stopall(HIGH);delay(duree_interruption); Stopall(LOW);delay(duree_rearmement);}}else{Stopall(LOW );}
-//if(d){if(US_D.ping_cm() < distance_obstacle && US_D.ping_cm() >10 ){Stopall(HIGH);delay(100); Stopall(LOW);}}else{Stopall(LOW );}
-if(e==1){if(US_E.ping_cm() < distance_obstacle && US_E.ping_cm() >10 ){Stopall(HIGH);delay(duree_interruption); Stopall(LOW);delay(duree_rearmement);}}else{Stopall(LOW );}
-digitalWrite(12,LOW);
+void loop()
+{
+  if (a == 1)
+  {
+    if (US_A.ping_cm() < distance_obstacle && US_A.ping_cm() > MIN_DISTANCE)
+    {
+      Stopall(HIGH);
+      delay(duree_interruption);
+      Stopall(LOW);
+      delay(duree_rearmement);
+    }
+  }
+  else
+  {
+    Stopall(LOW);
+  }
+  // if(b){if(US_B.ping_cm() < distance_obstacle && US_B.ping_cm() >10 ){Stopall(HIGH);delay(100); Stopall(LOW);}}else{Stopall(LOW );}
+  if (c == 1)
+  {
+    if (US_C.ping_cm() < distance_obstacle && US_C.ping_cm() > MIN_DISTANCE)
+    {
+      Stopall(HIGH);
+      delay(duree_interruption);
+      Stopall(LOW);
+      delay(duree_rearmement);
+    }
+  }
+  else
+  {
+    Stopall(LOW);
+  }
+  // if(d){if(US_D.ping_cm() < distance_obstacle && US_D.ping_cm() >10 ){Stopall(HIGH);delay(100); Stopall(LOW);}}else{Stopall(LOW );}
+  if (e == 1)
+  {
+    if (US_E.ping_cm() < distance_obstacle && US_E.ping_cm() > MIN_DISTANCE)
+    {
+      Stopall(HIGH);
+      delay(duree_interruption);
+      Stopall(LOW);
+      delay(duree_rearmement);
+    }
+  }
+  else
+  {
+    Stopall(LOW);
+  }
+  digitalWrite(STOP, LOW);
 }
-
 
 void receiveEvent(int howMany)
 {
@@ -80,28 +121,36 @@ void receiveEvent(int howMany)
     mot = Wire.read(); // receive byte as a character
   }
 
-  if(mot=='a'){a=Wire.read();} 
-//  else if(mot=='b'){ b = Wire.read();}
-  else if(mot=='c'){ c = Wire.read();}
-//  else if(mot=='d'){ d = Wire.read();}
-  else if(mot=='e'){ e = Wire.read();}
-  else {mot='z';}
+  if (mot == 'a')
+  {
+    a = Wire.read();
+  }
+  //  else if(mot=='b'){ b = Wire.read();}
+  else if (mot == 'c')
+  {
+    c = Wire.read();
+  }
+  //  else if(mot=='d'){ d = Wire.read();}
+  else if (mot == 'e')
+  {
+    e = Wire.read();
+  }
+  else
+  {
+    mot = 'z';
+  }
 }
 
 void Stopall(bool stopstate)
 {
-    if(stopstate)
+  if (stopstate)
   {
-    pinMode(STOP,OUTPUT);        
-    digitalWrite(STOP,HIGH);
+    pinMode(STOP, OUTPUT);
+    digitalWrite(STOP, HIGH);
   }
   else
   {
-    digitalWrite(STOP,LOW);  
-    pinMode(STOP,INPUT);        
+    digitalWrite(STOP, LOW);
+    pinMode(STOP, INPUT);
   }
 }
-
-
-
-

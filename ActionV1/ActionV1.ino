@@ -8,7 +8,7 @@
 #define pin_STOP_capteur 3
 #define pin_STOP_time 2
 #define pin_GO 9
-#define pin_Camp_Vert 7
+#define pin_Camp_Jaune 7
 #define pin_Camp_Violet 8
 #define ADD_Carte_Capteur 5
 
@@ -36,7 +36,7 @@ void setup()
   pinMode(pin_GO, INPUT);
   pinMode(pin_STOP_time, INPUT);
   pinMode(pin_STOP_capteur, INPUT);
-  pinMode(pin_Camp_Vert, INPUT);
+  pinMode(pin_Camp_Jaune, INPUT);
   pinMode(pin_Camp_Violet, INPUT);
   attachInterrupt(digitalPinToInterrupt(3), interruption_capteur, RISING);
   attachInterrupt(digitalPinToInterrupt(2), interruption_time, RISING);
