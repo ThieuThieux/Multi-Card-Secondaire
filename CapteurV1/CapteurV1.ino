@@ -9,10 +9,10 @@
 
 // US
 #define SONAR_NUM 6       // Number or sensors.
-#define MAX_DISTANCE 200  // Maximum distance (in cm) to ping.
-#define MIN_DISTANCE 10   // Minimum distance to 
+#define MAX_DISTANCE 200  // Maximum distanceIr (in cm) to ping.
+#define MIN_DISTANCE 10   // Minimum distanceIr to 
 #define PING_INTERVAL 40  // Milliseconds between sensor pings (29ms is about the min to avoid cross-sensor echo).
-#define DISTANCETOSTOP 30 // Distance à partir de laquelle on met le pin stop à 1
+#define DISTANCETOSTOP 30 // distanceIr à partir de laquelle on met le pin stop à 1
 
 // I/O
 #define trig0 2 // US_A
@@ -41,18 +41,18 @@ int camp = 2;
 int strategie = 0;
 char mot = 'z';
 
-boolean a = LOW;
-boolean b = LOW;
-boolean c = LOW;
-boolean d = LOW;
-boolean e = LOW;
+bool a = LOW;
+bool b = LOW;
+bool c = LOW;
+bool d = LOW;
+bool e = LOW;
 
 void setup()
 {
   Wire.begin(5);                // join i2c bus with address #8
   Wire.onReceive(receiveEvent); // register event
   Serial.begin(9600);           // start serial for output
-  pinMode(12, OUTPUT);
+  pinMode(STOP, OUTPUT);
   pinMode(trig0, INPUT);
   pinMode(echo0, INPUT);
   pinMode(trig1, INPUT);

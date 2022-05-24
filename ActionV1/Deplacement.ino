@@ -1,18 +1,18 @@
 
 void pivoter_g()
 {
-  Dynamixel.turn(1, RIGTH, vitesse_rotation);
-  Dynamixel.turn(3, RIGTH, vitesse_rotation);
-  delay(temps_rotate_90);
+  Dynamixel.turn(1, RIGTH, VITESSE_ROTATION);
+  Dynamixel.turn(3, RIGTH, VITESSE_ROTATION);
+  delay(TEMPS_ROTATE_90);
   Dynamixel.turn(3, RIGTH, 0);
   Dynamixel.turn(1, LEFT, 0);
 }
 
 void pivoter_d()
 {
-  Dynamixel.turn(1, LEFT, vitesse_rotation);
-  Dynamixel.turn(3, LEFT, vitesse_rotation);
-  delay(temps_rotate_90);
+  Dynamixel.turn(1, LEFT, VITESSE_ROTATION);
+  Dynamixel.turn(3, LEFT, VITESSE_ROTATION);
+  delay(TEMPS_ROTATE_90);
   Dynamixel.turn(3, RIGTH, 0);
   Dynamixel.turn(1, LEFT, 0);
 }
@@ -36,9 +36,13 @@ void Pince_levee()
   Dynamixel.moveSpeed(9, 198, 200);
 }
 
-void Pince_baissee() { Dynamixel.moveSpeed(9, 508, 200); }
+void Pince_baissee() {
+  Dynamixel.moveSpeed(9, 508, 200);
+}
 
-void Pince_baissee_max() { Dynamixel.moveSpeed(9, 555, 200); }
+void Pince_baissee_max() {
+  Dynamixel.moveSpeed(9, 555, 200);
+}
 
 void Pince_Ouverture()
 {
@@ -69,6 +73,24 @@ void Pince_Cabane()
   Dynamixel.moveSpeed(8, 445, 200);
   Dynamixel.moveSpeed(9, 508, 200);
 }
+
+void infinite_advance() {
+  digitalWrite(LED_BUILTIN, HIGH);
+  Dynamixel.move(3, 28672);
+  Dynamixel.move(1, -28672);
+  delay(1000);
+  Dynamixel.stopmultiturn(3);
+  Dynamixel.stopmultiturn(1);
+  delay(500);
+  digitalWrite(LED_BUILTIN, LOW);
+  Dynamixel.move(3, 4096);
+  Dynamixel.move(1, -4096);
+  delay(1000);
+  Dynamixel.setmultiturn(3);
+  Dynamixel.setmultiturn(1);
+  delay(500);
+}
+
 
 void avancer(float d)
 {
@@ -198,7 +220,7 @@ void courbure_v3()
 void etape_calibrer_bloc()
 {
 
-  while (dis != 23)
+  while (distanceIr != 23)
   {
     suivre_IR();
   }

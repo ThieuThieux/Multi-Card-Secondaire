@@ -1,7 +1,7 @@
 {
+    "port": "COM6",
     "configuration": "cpu=atmega328",
     "board": "arduino:avr:nano",
     "programmer": "arduino:avrispmkii",
-    "sketch": "ActionV1\\ActionV1.ino",
-    "port": "COM6"
+    "sketch": "ActionV1.ino"
 }
